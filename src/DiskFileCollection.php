@@ -76,17 +76,29 @@ class DiskFileCollection implements CollectionInterface
         FileStorage::clear();
     }
 
-    public function save()
+    /**
+     * save store the information of array set
+     * @return bool
+     */
+    public function save() : bool
     {
         return FileStorage::save($this->data);
     }
 
-    public function close()
+    /**
+     * close : close file and sets resource null in File::class
+     * @return bool
+     */
+    public function close() : bool
     {
         return FileStorage::close();
     }
 
-    public function removeFile()
+    /**
+     * removeFile : erase file from disk
+     * @return bool
+     */
+    public function removeFile() : bool
     {
         return FileStorage::removeFile();
     }

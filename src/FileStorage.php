@@ -10,14 +10,23 @@ namespace Live\Collection;
 class FileStorage
 {
     /**
-     * Collection data
+     * resource file
      *
-     * @var array
+     * @var resource
      */
     protected static $fileResource = null;
 
+    /**
+     * string of complete path to file
+     *
+     * @var string
+     */
     protected static $fileStoragePath;
 
+    /**
+     * openOrCreateFile use to get a single pointer of file
+     * @return void
+     */
     public static function openOrCreateFile(string $filePath)
     {
         self::$fileStoragePath = $filePath;
@@ -27,6 +36,10 @@ class FileStorage
         }
     }
 
+    /**
+     * getContent retrieve all content from file and apply unserialize to php
+     * @return mixed
+     */
     public static function getContent()
     {
         $content= '';
@@ -37,25 +50,41 @@ class FileStorage
         return unserialize($content);
     }
 
-    public static function save(array $data)
+    /**
+     * save store the information of array set
+     * @return bool
+     */
+    public static function save(array $data) : bool
     {
         ftruncate(self::$fileResource, 0);
         return fwrite(self::$fileResource, serialize($data));
     }
 
-    public static function clear()
+    /**
+     * clear : erase all content in file
+     * @return bool
+     */
+    public static function clear() : bool
     {
         return ftruncate(self::$fileResource, 0);
     }
 
-    public static function close()
+    /**
+     * close : close file and sets resource null in File::class
+     * @return bool
+     */
+    public static function close() : bool
     {
         $closeResult= fclose(self::$fileResource);
         self::$fileResource = null;
         return $closeResult;
     }
 
-    public static function removeFile()
+    /**
+     * removeFile : erase file from disk
+     * @return bool
+     */
+    public static function removeFile() : bool
     {
         return unlink(self::$fileStoragePath);
     }
